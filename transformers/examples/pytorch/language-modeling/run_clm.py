@@ -632,6 +632,7 @@ def main():
                 pos_vocab[x] = len(pos_vocab)
         elif model_args.experiment in ['e2e-tgt-tree', 'e2e-tgt-gen-tree', 'e2e-tgt-gen-spans']:
             import benepar
+            benepar.download('benepar_en3')
             parser = benepar.Parser("benepar_en3")
             tree_vocab = parser._parser.config["label_vocab"]
 
@@ -1612,7 +1613,7 @@ def main():
             else:
                 return logits.argmax(dim=-1)
 
-        metric = load_metric("accuracy")
+        metric = load_metric("accuracy", trust_remote_code=True)
 
         def compute_metrics(eval_preds):
             preds, labels = eval_preds
